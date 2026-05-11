@@ -12,7 +12,7 @@ Claude Code plugin that gives agents the knowledge and recipes to use the [Qenco
 | `qencode-api-reference` | ✅ shipped | The user asks what an attribute means or what values it accepts. |
 | `qencode-transcode` | ✅ shipped | End-to-end job submission. Uses MCP if connected; falls back to raw HTTP. |
 | `qencode-job-status` | ✅ shipped | Poll or wait for a running job. |
-| `qencode-troubleshoot` | _planned (M4)_ | Map a Qencode error code to a likely cause and fix. |
+| `qencode-troubleshoot` | ✅ shipped | Map a Qencode error code (or failed-job `error_description`) to a likely cause and fix. |
 
 The skills read from a shared knowledge base under `assets/`:
 
