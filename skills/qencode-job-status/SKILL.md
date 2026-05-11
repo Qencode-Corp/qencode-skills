@@ -88,6 +88,10 @@ The public `/v1/status` endpoint is rate-limited per project. Both the MCP `wait
 
 For very long jobs (4K, multi-hour content), raise `timeout_seconds`/`--timeout` to e.g. 3600 (one hour) and warn the user that the call will sit for that long. Better yet: do a snapshot first, eyeball the `percent`, and pick a timeout based on the remaining work.
 
+## Trap to avoid: don't parallel-call `wait_for_job` with other MCP tools
+
+Empirically, dispatching `mcp__qencode__wait_for_job` in the same parallel tool-call batch as `mcp__qencode__get_job_status` (or any other MCP tool) causes `wait_for_job` to return an early intermediate snapshot instead of polling. Call `wait_for_job` **alone** in its tool-use block. Sequential calls are fine; parallel ones aren't.
+
 ## Cross-references
 
 - `${CLAUDE_PLUGIN_ROOT}/skills/qencode-transcode/SKILL.md` — got here from there typically
