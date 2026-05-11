@@ -84,10 +84,10 @@ The skills read a digest generated from the canonical schema in the docs repo. R
 ```bash
 # point the script at your docs checkout
 export QENCODE_DOCS_PATH=~/projects/qencode/docs_getsby5
-python scripts/build_assets.py
+python plugins/qencode-skills/scripts/build_assets.py
 
 # or pass the path explicitly:
-python scripts/build_assets.py --docs-path ~/projects/qencode/docs_getsby5
+python plugins/qencode-skills/scripts/build_assets.py --docs-path ~/projects/qencode/docs_getsby5
 ```
 
 The script reads `<docs>/src/data/api/transcoding.json` and writes `assets/schema-digest.md` and `assets/schema-index.json`. Commit the regenerated assets.
