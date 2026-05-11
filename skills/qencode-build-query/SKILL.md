@@ -30,15 +30,49 @@ The outer `{"query": ...}` wrapper is **required** — submitting just the inner
 
 2. **Pick the matching recipe(s)** based on what the user asked for. Read each picked recipe's full markdown before writing JSON.
 
+   **Output-format recipes:**
+
    | User said | Recipe |
    |---|---|
    | "HLS", "adaptive bitrate", "stream to browser/iOS", `.m3u8` | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/hls_abr.md` |
+   | "DASH", `.mpd` | adapt `hls_abr.md` — swap `output: "advanced_hls"` → `"advanced_dash"`; same stream-level rules |
    | "MP4 ladder", "multiple resolutions as MP4", "download links" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/mp4_ladder.md` |
+   | "MP3", "FLAC", "HLS audio", "extract audio", "audio-only" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/audio_outputs.md` |
    | "thumbnail", "poster", "sprite sheet", "scrub preview" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/thumbnails.md` |
-   | "DASH", `.mpd` | adapt `hls_abr.md` — replace `output: "advanced_hls"` with `"advanced_dash"`, keep the same stream-level rules |
-   | "extract audio", `.mp3`, `.flac` | use `output: "mp3"` or `"flac"` with `audio_codec`, `audio_bitrate` (see schema digest) |
-   | "transcribe", "captions", "subtitles" | use `output: "speech_to_text"` (see schema digest) |
-   | Combined ("HLS + a poster + extract audio") | one `format[]` entry per output, all in the same job |
+   | "subtitles", "captions", "add .srt", "copy CEA-608/708" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/subtitles.md` |
+   | "transcribe", "speech-to-text", "auto-subtitles", "translate audio" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/speech_to_text.md` |
+   | "metadata", "ffprobe", "inspect source", "get width/height/duration" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/video_metadata.md` |
+
+   **Codec-specific recipes:**
+
+   | User said | Recipe |
+   |---|---|
+   | "AV1", `libsvtav1`, "smallest files" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/codec_av1.md` |
+   | "LCEVC", `lcevc_h264`, `lcevc_hevc`, "V-Nova" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/codec_lcevc.md` |
+
+   **Workflow/feature recipes:**
+
+   | User said | Recipe |
+   |---|---|
+   | "per-title encoding", "CRF tuning", `optimize_bitrate` | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/per_title_encoding.md` |
+   | "stitch", "concatenate", "combine clips", "compilation" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/stitching.md` |
+   | "webhook", "callback", "notify when done" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/callbacks.md` |
+   | "retry on error", "soft fail", "reliability", "production-ready" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/reliability.md` |
+   | "incremental ABR", "add a 1080p rung later", `incremental_tag` | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/incremental_abr.md` |
+   | "refresh playlist", "playable while encoding", "rolling availability" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/refresh_abr_playlist.md` |
+
+   **DRM recipes:**
+
+   | User said | Recipe |
+   |---|---|
+   | "AES-128", "simple HLS encryption" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_aes128.md` |
+   | "Widevine", "EZDRM Widevine", `cenc_drm` for Android/Chrome | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_widevine_ezdrm.md` |
+   | "PlayReady", "EZDRM PlayReady", `cenc_drm` for Windows/Xbox | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_playready_ezdrm.md` |
+   | "FairPlay", "EZDRM Fairplay", `fps_drm` for iOS/macOS | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_fairplay_ezdrm.md` |
+   | "BuyDRM", "KeyOS", CPIX request | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_buydrm.md` |
+   | "ExpressPlay", multi-DRM via ExpressPlay | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/drm_expressplay.md` |
+
+   **Combined outputs** ("HLS + a poster + extract audio") → one `format[]` entry per output, all in the same job. Mix recipes as needed.
 
    If no recipe matches, fall back to the schema digest at `${CLAUDE_PLUGIN_ROOT}/assets/schema-digest.md`.
 
