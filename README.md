@@ -26,28 +26,50 @@ The skills read from a shared knowledge base under `assets/`:
 | `assets/error-codes.md` | Error code → cause → fix table |
 | `assets/recipes/*.md` | Named recipes (HLS ABR, MP4 ladder, thumbnails, …) |
 
-## Install
+## Install (Claude Code)
 
-```bash
-# from inside Claude Code:
-/plugin install qencode-skills
+This repo is a self-hosted Claude Code marketplace. Two commands in any Claude Code session:
+
+```text
+/plugin marketplace add Qencode-Corp/qencode-skills
+/plugin install qencode-skills@qencode
 ```
 
-Or clone locally and point Claude Code at the directory.
+The first registers this repo as a marketplace named `qencode`. The second installs the `qencode-skills` plugin from it.
+
+On install, Claude Code will also prompt you to approve adding the `qencode` MCP server pointing at `https://mcp-qa.qencode.com/mcp`. On first tool use the browser opens for the OAuth handshake (no API key in client config — see `.mcp.json`).
+
+### Updating
+
+```text
+/plugin update qencode-skills@qencode
+```
+
+Or `/plugin marketplace update qencode` to pull the latest entries.
+
+### Removing
+
+```text
+/plugin uninstall qencode-skills@qencode
+/plugin marketplace remove qencode
+```
+
+### Local-dev install (without publishing)
+
+When iterating on the plugin itself, point Claude Code at your working copy instead of GitHub:
+
+```text
+/plugin marketplace add /path/to/qencode-skills
+/plugin install qencode-skills@qencode
+```
 
 ## Configuration
 
-The plugin bundles a `.mcp.json` that registers the hosted Qencode MCP server at `https://mcp-qa.qencode.com/mcp` (Claude Code prompts you to approve it on first use). The server uses **OAuth** — there is no API key to set; on first connection your browser opens an `auth-qa.qencode.com` consent flow and the token persists locally.
-
-If you'd rather install the MCP server separately (e.g. for a different scope), see the install notes at `~/projects/qencode/qencode-mcp/docs/install.md`:
-
-```bash
-claude mcp add --transport http qencode https://mcp-qa.qencode.com/mcp
-```
+The MCP server installed with the plugin uses **OAuth** — there's nothing to configure in this plugin's settings. On first tool use, your browser opens `auth-qa.qencode.com` for consent and the token is persisted locally by Claude Code.
 
 ### HTTP fallback (no MCP)
 
-The `qencode-transcode` and `qencode-job-status` skills can also call the public API directly via `curl` if no MCP server is connected. The fallback uses a project API key:
+The `qencode-transcode` and `qencode-job-status` skills can also call the public API directly via `scripts/http_fallback.py` when no MCP is connected. The fallback uses a project API key:
 
 ```bash
 export QENCODE_API_KEY=...   # from https://portal.qencode.com/project/my_projects
