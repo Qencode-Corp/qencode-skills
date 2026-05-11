@@ -10,8 +10,8 @@ Claude Code plugin that gives agents the knowledge and recipes to use the [Qenco
 |---|---|---|
 | `qencode-build-query` | ✅ shipped | The user asks to transcode/encode/convert a video. Composes a validated `query` JSON without submitting. |
 | `qencode-api-reference` | ✅ shipped | The user asks what an attribute means or what values it accepts. |
-| `qencode-transcode` | _planned (M3)_ | End-to-end job submission. Uses MCP if configured; falls back to raw HTTP. |
-| `qencode-job-status` | _planned (M3)_ | Poll or wait for a running job. |
+| `qencode-transcode` | ✅ shipped | End-to-end job submission. Uses MCP if connected; falls back to raw HTTP. |
+| `qencode-job-status` | ✅ shipped | Poll or wait for a running job. |
 | `qencode-troubleshoot` | _planned (M4)_ | Map a Qencode error code to a likely cause and fix. |
 
 The skills read from a shared knowledge base under `assets/`:
@@ -37,17 +37,23 @@ Or clone locally and point Claude Code at the directory.
 
 ## Configuration
 
-Set your Qencode API key in the shell that launches Claude Code:
+The plugin bundles a `.mcp.json` that registers the hosted Qencode MCP server at `https://mcp-qa.qencode.com/mcp` (Claude Code prompts you to approve it on first use). The server uses **OAuth** — there is no API key to set; on first connection your browser opens an `auth-qa.qencode.com` consent flow and the token persists locally.
+
+If you'd rather install the MCP server separately (e.g. for a different scope), see the install notes at `~/projects/qencode/qencode-mcp/docs/install.md`:
 
 ```bash
-export QENCODE_API_KEY=...
+claude mcp add --transport http qencode https://mcp-qa.qencode.com/mcp
 ```
 
-The plugin prefers the [`qencode-mcp`](https://github.com/Qencode-Corp/qencode-mcp) server if it's on your `PATH`, and falls back to raw HTTP via `curl`/`httpx` otherwise. Install the MCP server for nicer error handling and session-token caching:
+### HTTP fallback (no MCP)
+
+The `qencode-transcode` and `qencode-job-status` skills can also call the public API directly via `curl` if no MCP server is connected. The fallback uses a project API key:
 
 ```bash
-pipx install qencode-mcp
+export QENCODE_API_KEY=...   # from https://portal.qencode.com/project/my_projects
 ```
+
+MCP is preferred — it handles OAuth, session-token caching, and retries on transient disconnects. Use the fallback only if you can't run MCP in your environment.
 
 ## Updating the schema digest
 
