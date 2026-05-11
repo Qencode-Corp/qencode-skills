@@ -11,7 +11,12 @@
       "name": "qencode-skills",
       "description": "Build, submit, monitor, and troubleshoot Qencode transcoding jobs from inside Claude Code. Covers HLS/DASH ABR ladders, MP4 ladders, audio outputs, thumbnails, subtitles, speech-to-text, DRM (Widevine/PlayReady/Fairplay/EZDRM/BuyDRM/ExpressPlay), per-title encoding, callbacks, stitching, and per-provider storage destinations. Bundles the qencode MCP server (OAuth-protected) for live submission.",
       "category": "development",
-      "source": "./plugins/qencode-skills",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/Qencode-Corp/qencode-skills.git",
+        "path": "plugins/qencode-skills",
+        "ref": "main"
+      },
       "homepage": "https://github.com/Qencode-Corp/qencode-skills"
     }
   ]
