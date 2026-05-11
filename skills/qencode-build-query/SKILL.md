@@ -48,7 +48,6 @@ The outer `{"query": ...}` wrapper is **required** — submitting just the inner
    | User said | Recipe |
    |---|---|
    | "AV1", `libsvtav1`, "smallest files" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/codec_av1.md` |
-   | "LCEVC", `lcevc_h264`, `lcevc_hevc`, "V-Nova" | `${CLAUDE_PLUGIN_ROOT}/assets/recipes/codec_lcevc.md` |
 
    **Workflow/feature recipes:**
 

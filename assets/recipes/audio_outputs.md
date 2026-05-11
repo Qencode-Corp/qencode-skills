@@ -27,7 +27,7 @@ Input can be a video (audio track is extracted) or an audio-only source.
     "format": [
       {
         "output": "mp3",
-        "audio_codec": "libfdk_aac",
+        "audio_codec": "mp3",
         "audio_bitrate": 192,
         "audio_sample_rate": 44100,
         "audio_channels_number": 2,
@@ -40,7 +40,7 @@ Input can be a video (audio track is extracted) or an audio-only source.
 }
 ```
 
-> The audio codec on MP3 outputs is currently fixed at MP3 encoding — the `audio_codec` field on `mp3` outputs is informational; the produced stream is always MP3. (libfdk_aac is the project default for *AAC* outputs; for MP3 specifically the underlying codec is unchanged.)
+> For MP3 outputs, set `audio_codec: "mp3"` — this is the exception to the project's `libfdk_aac` default (which applies to AAC outputs like `hls_audio` and AAC streams inside MP4/HLS/DASH containers).
 
 ## HLS audio (single audio rendition)
 
@@ -109,7 +109,7 @@ FLAC is lossless, so the audio codec cannot be changed (omit `audio_codec`). `au
 
 ## Customization notes
 
-- **Audio codec** (for `mp3` and `hls_audio`): the schema accepts `libfdk_aac`, `aac`, `mp3`, `opus`, `libvorbis`. Default is `libfdk_aac`. For `mp3` outputs the produced stream is MP3 regardless.
+- **Audio codec**: the schema accepts `libfdk_aac`, `aac`, `mp3`, `opus`, `libvorbis`. Use `mp3` for `mp3` outputs, `libfdk_aac` for `hls_audio` and any AAC streams (project default).
 - **Sample rate**: defaults to 44100. Common alternates: 48000 (broadcast), 22050 (low-bandwidth voice).
 - **Channels**: defaults to 2 (stereo). Use 1 for mono (voice/podcast).
 - **Bitrate**: defaults to 64 kbps — way too low for music. For voice 96–128 is fine, for music 192–320, for FLAC archival 320.

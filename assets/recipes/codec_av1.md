@@ -176,7 +176,7 @@ Under `video_codec_parameters`:
 - `start_encode2.query.format[].video_codec_parameters` — object with `preset`, `tune`, `aq_mode`, `film_grain`, `fast_decode`, `enable_dlf`, `enable_restoration`, `hierarchical_levels`, `pred_struct`
 - `start_encode2.query.format[].quality` — CRF, 20–40 typical for AV1
 
-See also: `assets/best-practices.md` (§4 — `quality` over `bitrate`; §5 — AV1 doesn't support per-title), `assets/recipes/codec_lcevc.md` (alternative for bandwidth savings with broader compatibility), `assets/storage.md`.
+See also: `assets/best-practices.md` (§4 — `quality` over `bitrate`; §5 — AV1 doesn't support per-title), `assets/storage.md`.
 
 ## Gotchas
 

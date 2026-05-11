@@ -36,8 +36,6 @@ The `saved` event is the most useful — it's the "the job is over, do whatever 
         "resolution": 720,
         "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "audio_bitrate": 128,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/output.mp4"

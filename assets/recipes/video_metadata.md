@@ -17,7 +17,6 @@ Produces a JSON file containing ffprobe-style metadata for the source: format in
 {
   "query": {
     "source": "https://example.com/input.mp4",
-    "encoder_version": 2,
     "format": [
       {
         "output": "metadata",
@@ -30,6 +29,8 @@ Produces a JSON file containing ffprobe-style metadata for the source: format in
   }
 }
 ```
+
+> `encoder_version` is omitted here intentionally — the `metadata` output is a probe, not an encode, and runs identically regardless of encoder version.
 
 `destination.url` points at the **full JSON file path** (not a folder). The output is a single `.json` file.
 
@@ -60,7 +61,7 @@ The JSON has the same shape as `ffprobe -of json -show_format -show_streams`. To
 - `start_encode2.query.format[].output` — `metadata`
 - `start_encode2.query.format[].metadata_version` — pin a specific ffprobe version
 
-See also: `assets/storage.md` and `assets/best-practices.md` (§1, §6).
+See also: `assets/storage.md` and `assets/best-practices.md` (§6).
 
 ## Gotchas
 

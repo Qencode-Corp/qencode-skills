@@ -22,9 +22,6 @@
       {
         "output": "advanced_hls",
         "segment_duration": 6,
-        "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "destination": {
           "url": "s3://us-east-1.amazonaws.com/lectures-prod/hls/",
           "key": "AKIA_REPLACE",
@@ -39,6 +36,7 @@
             "framerate": "30",
             "keyframe": "60",
             "quality": 22,
+            "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
           {
@@ -48,6 +46,7 @@
             "framerate": "30",
             "keyframe": "60",
             "quality": 22,
+            "optimize_bitrate": 1,
             "audio_bitrate": 128
           }
         ]

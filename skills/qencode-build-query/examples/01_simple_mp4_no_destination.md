@@ -7,7 +7,7 @@
 - One output, no destination mentioned → use 24-hour temp storage and warn.
 - 720p as a single MP4 → use the MP4 ladder recipe with one rung.
 - `resolution: 720` keeps source aspect ratio for both landscape and portrait sources.
-- Per-title encoding + CRF defaults from `best-practices.md`.
+- Per-title encoding (`optimize_bitrate: 1`) and CRF (`quality`) defaults from `best-practices.md` — no `min_crf`/`max_crf` bounds in the default example.
 
 ## Expected JSON
 
@@ -24,8 +24,6 @@
         "resolution": 720,
         "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 38,
         "audio_bitrate": 128
       }
     ]
@@ -35,7 +33,7 @@
 
 ## Expected summary
 
-> Produces one 720p MP4 from your source using H.264 + libfdk_aac with per-title encoding (CRF clamped to 18–28).
+> Produces one 720p MP4 from your source using H.264 + libfdk_aac with per-title encoding.
 >
 > ⚠️ No `destination` was specified, so the output lands in Qencode's 24-hour temporary storage and will be **deleted ~24 hours after the job completes**. Add a `destination` block (see `assets/storage.md`) if you want to keep it.
 >

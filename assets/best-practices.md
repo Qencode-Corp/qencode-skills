@@ -32,13 +32,12 @@ Use `"bitrate"` only when the user has a specific target bitrate (CDN contract, 
 **Never** use `"two_pass": 1`. Use Per-Title Encoding:
 
 ```json
-"optimize_bitrate": 1,
-"min_crf": 18,
-"max_crf": 28,
-"adjust_crf": 0
+"optimize_bitrate": 1
 ```
 
 Better quality than two-pass with one-pass wall-clock time. Per-title picks the optimal CRF per scene/source automatically.
+
+`min_crf` / `max_crf` / `adjust_crf` are optional bounds — leave them off by default and let per-title pick the full range. Add them only when you need a hard quality floor or ceiling for a specific deliverable (see `assets/recipes/per_title_encoding.md` for tuning details).
 
 ## 6. Storage — see `assets/storage.md`
 
@@ -64,19 +63,16 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
 - `quality` (CRF) or `bitrate`
 - `audio_bitrate`
 - `resolution` (or `size` / `width` / `height`)
+- `optimize_bitrate` (and `min_crf` / `max_crf` / `adjust_crf` if you bound per-title)
 - `rotate`, `aspect_ratio`, `two_pass` (rare)
 
 **Stays at the format level:**
 - `output`, `destination`
 - `segment_duration`, `fmp4`, `separate_audio`, `playlist_name` (packaging)
-- `optimize_bitrate`, `min_crf`, `max_crf`, `adjust_crf` (per-title bounds — apply to all streams)
 
 ```json
 "output": "advanced_hls",
 "segment_duration": 6,
-"optimize_bitrate": 1,
-"min_crf": 18,
-"max_crf": 28,
 "destination": { /* ... */ },
 "stream": [
   {
@@ -86,6 +82,7 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
     "framerate": "30",
     "keyframe": "60",
     "quality": 22,
+    "optimize_bitrate": 1,
     "audio_bitrate": 128
   },
   {
@@ -95,6 +92,7 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
     "framerate": "30",
     "keyframe": "60",
     "quality": 22,
+    "optimize_bitrate": 1,
     "audio_bitrate": 128
   }
 ]
@@ -140,4 +138,4 @@ For source content with non-standard frame rates (film at 24, PAL at 25), match 
 }
 ```
 
-For HLS/DASH, the format block omits all per-rendition params and instead carries a `stream[]` array; each entry holds `video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `quality`, `audio_bitrate` per rung. See §8.
+For HLS/DASH, the format block omits all per-rendition params and instead carries a `stream[]` array; each entry holds `video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `quality`, `optimize_bitrate`, `audio_bitrate` per rung. See §7.

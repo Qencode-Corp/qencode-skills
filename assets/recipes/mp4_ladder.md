@@ -25,7 +25,7 @@ Produces N independent MP4 files at different resolutions from a single source. 
 | 480  |  96 |
 | 360  |  96 |
 
-Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per rung within `[min_crf, max_crf]`.
+Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per scene. Optional `min_crf` / `max_crf` / `adjust_crf` bounds can be added if you need a quality floor or ceiling — see `assets/recipes/per_title_encoding.md`.
 
 ## query JSON — Qencode-managed storage (no credentials needed)
 
@@ -42,8 +42,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per rung wi
         "resolution": 1080,
         "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "audio_bitrate": 128,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/1080p.mp4"
@@ -56,8 +54,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per rung wi
         "resolution": 720,
         "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "audio_bitrate": 128,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/720p.mp4"
@@ -70,8 +66,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per rung wi
         "resolution": 480,
         "quality": 23,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 30,
         "audio_bitrate": 96,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/480p.mp4"
@@ -84,8 +78,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per rung wi
         "resolution": 360,
         "quality": 23,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 30,
         "audio_bitrate": 96,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/360p.mp4"
@@ -105,7 +97,8 @@ For AWS S3, Cloudflare R2, Backblaze B2, Azure Blob, FTP/SFTP, fan-out to multip
 - **Codec**: swap `libx264` → `libx265` for HEVC (smaller files, narrower playback support) or `libsvtav1` for AV1 (smallest, requires `encoder_version: 2`, which is already set).
 - **Force exact dimensions**: replace `resolution` with `size: "1920x1080"` and add `resize_mode: "crop"` if you need to force a specific aspect ratio. Otherwise leave `resolution` alone — it preserves source aspect ratio for both landscape and portrait sources.
 - **Fixed bitrate target** (CDN/contract): replace `quality` + `optimize_bitrate` block with `"bitrate": 5000` (in kbps). Skip per-title in that case.
-- **Skip per-title**: drop `optimize_bitrate`/`min_crf`/`max_crf` and use just `quality: <CRF>` for a fixed-CRF encode.
+- **Skip per-title**: drop `optimize_bitrate` and use just `quality: <CRF>` for a fixed-CRF encode.
+- **Bound per-title CRF**: add `min_crf` / `max_crf` / `adjust_crf` next to `optimize_bitrate` when you need a quality floor or ceiling — see `assets/recipes/per_title_encoding.md`.
 - **No destination** = 24-hour temp storage. Useful for quick previews; warn the user before submitting.
 
 ## Schema pointers

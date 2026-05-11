@@ -76,7 +76,25 @@ CRF is inverse: lower = better quality + larger file. A "subjectively sane" rang
 | Bandwidth-constrained delivery | 24 | 32 | Acceptable on small screens; saves bytes. |
 | Low-resolution rungs (≤480p) in an ABR ladder | 21 | 30 | Lower rungs tolerate more compression because they're scaled down anyway. |
 
-For ABR ladders, set `optimize_bitrate` + `min_crf`/`max_crf` at the **format level** — they apply to all `stream[]` entries. The picker chooses an appropriate CRF per scene per rendition.
+For ABR ladders (`advanced_hls`, `advanced_dash`), put `optimize_bitrate` (and the optional `min_crf`/`max_crf`/`adjust_crf` bounds) **on each `stream[]` entry**, not at the format level — per `best-practices.md` §7. The picker chooses an appropriate CRF per scene per rendition.
+
+```json
+"stream": [
+  {
+    "video_codec": "libx264",
+    "audio_codec": "libfdk_aac",
+    "resolution": 1080,
+    "framerate": "30",
+    "keyframe": "60",
+    "quality": 22,
+    "optimize_bitrate": 1,
+    "min_crf": 18,
+    "max_crf": 28,
+    "audio_bitrate": 128
+  },
+  /* … other rungs … */
+]
+```
 
 ## When NOT to use per-title
 
@@ -99,10 +117,10 @@ If your average output is too soft or too sharp, use `adjust_crf`:
 
 ## Schema pointers
 
-- `start_encode2.query.format[].optimize_bitrate` — enable per-title (0/1)
-- `start_encode2.query.format[].min_crf` — lowest CRF the picker may select
-- `start_encode2.query.format[].max_crf` — highest CRF the picker may select
-- `start_encode2.query.format[].adjust_crf` — shift in either direction (-10…+10)
+- `start_encode2.query.format[].optimize_bitrate` — enable per-title (0/1). For ABR outputs, put this on each `stream[]` entry instead.
+- `start_encode2.query.format[].min_crf` — lowest CRF the picker may select (optional)
+- `start_encode2.query.format[].max_crf` — highest CRF the picker may select (optional)
+- `start_encode2.query.format[].adjust_crf` — shift in either direction, -10…+10 (optional)
 
 See also: `assets/best-practices.md` (§5 explicitly forbids `two_pass: 1` — use per-title instead), `assets/recipes/mp4_ladder.md` and `assets/recipes/hls_abr.md` (both have per-title pre-wired).
 

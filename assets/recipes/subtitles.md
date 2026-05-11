@@ -32,8 +32,6 @@ Currently supported subtitle formats: `.srt`, `.ass`.
         "resolution": 720,
         "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "subtitles": {
           "sources": [
             {

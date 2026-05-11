@@ -38,9 +38,6 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
       {
         "output": "advanced_hls",
         "segment_duration": 6,
-        "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
         "destination": {
           "url": "s3://us-west.s3.qencode.com/yourbucket/hls/"
         },
@@ -52,6 +49,7 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "framerate": "30",
             "keyframe": "60",
             "quality": 22,
+            "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
           {
@@ -61,6 +59,7 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "framerate": "30",
             "keyframe": "60",
             "quality": 22,
+            "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
           {
@@ -70,6 +69,7 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "framerate": "30",
             "keyframe": "60",
             "quality": 23,
+            "optimize_bitrate": 1,
             "audio_bitrate": 96
           },
           {
@@ -79,6 +79,7 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "framerate": "30",
             "keyframe": "60",
             "quality": 23,
+            "optimize_bitrate": 1,
             "audio_bitrate": 96
           }
         ]
@@ -116,7 +117,8 @@ Apply the chosen `framerate`/`keyframe` to **every** entry in the `stream[]` arr
 - **Single folder layout**: add `"single_folder": 1` to flatten all files into one directory.
 - **DRM**: add a `cenc_drm` block for Widevine/PlayReady or `fps_drm` for Fairplay (recipe coming in M4).
 - **Custom master filename**: `"playlist_name": "stream.m3u8"` overrides the default `master.m3u8`.
-- **Fixed bitrate ladder**: replace `quality` per-stream with `bitrate` values (kbps) and remove `optimize_bitrate`/`min_crf`/`max_crf`.
+- **Fixed bitrate ladder**: replace `quality` per-stream with `bitrate` values (kbps) and remove `optimize_bitrate` from each stream.
+- **Bounded per-title CRF**: add `min_crf` / `max_crf` / `adjust_crf` next to `optimize_bitrate` on each stream entry when you need quality floor/ceiling — see `assets/recipes/per_title_encoding.md` for details.
 
 ## Schema pointers
 
