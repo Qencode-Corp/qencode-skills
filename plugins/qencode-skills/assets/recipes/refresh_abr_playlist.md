@@ -33,10 +33,10 @@ Common use cases:
           "url": "s3://us-west.s3.qencode.com/yourbucket/hls/"
         },
         "stream": [
-          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 360,  "framerate": "30", "keyframe": "60", "quality": 23, "optimize_bitrate": 1, "audio_bitrate": 96  },
-          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 480,  "framerate": "30", "keyframe": "60", "quality": 23, "optimize_bitrate": 1, "audio_bitrate": 128 },
-          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 720,  "framerate": "30", "keyframe": "60", "quality": 22, "optimize_bitrate": 1, "audio_bitrate": 128 },
-          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 1080, "framerate": "30", "keyframe": "60", "quality": 22, "optimize_bitrate": 1, "audio_bitrate": 128 }
+          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 360,  "framerate": "30", "keyframe": "60", "optimize_bitrate": 1, "audio_bitrate": 96  },
+          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 480,  "framerate": "30", "keyframe": "60", "optimize_bitrate": 1, "audio_bitrate": 128 },
+          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 720,  "framerate": "30", "keyframe": "60", "optimize_bitrate": 1, "audio_bitrate": 128 },
+          { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 1080, "framerate": "30", "keyframe": "60", "optimize_bitrate": 1, "audio_bitrate": 128 }
         ]
       }
     ]

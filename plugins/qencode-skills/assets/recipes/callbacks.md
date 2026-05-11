@@ -34,7 +34,6 @@ The `saved` event is the most useful — it's the "the job is over, do whatever 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 720,
-        "quality": 22,
         "optimize_bitrate": 1,
         "audio_bitrate": 128,
         "destination": {

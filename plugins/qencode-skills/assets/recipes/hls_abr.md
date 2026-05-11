@@ -8,7 +8,7 @@ needs_destination: yes (HLS produces many files; you almost always want your own
 
 # Recipe — HLS adaptive bitrate playlist
 
-Produces a single master HLS playlist with multiple bitrate variants. For ABR, all per-rendition encoding params (`video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `quality`, `audio_bitrate`) belong on each `stream[]` entry — the format level only carries packaging settings (`segment_duration`, `fmp4`, `separate_audio`, `playlist_name`), the destination, and per-title bounds. This is the schema's documented rule, not a workaround.
+Produces a single master HLS playlist with multiple bitrate variants. For ABR, all per-rendition encoding params (`video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `optimize_bitrate` or `quality`/`bitrate`, `audio_bitrate`) belong on each `stream[]` entry — the format level only carries packaging settings (`segment_duration`, `fmp4`, `separate_audio`, `playlist_name`) and the destination. This is the schema's documented rule, not a workaround.
 
 ## Inputs
 
@@ -48,7 +48,6 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "resolution": 1080,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
@@ -58,7 +57,6 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "resolution": 720,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
@@ -68,7 +66,6 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "resolution": 540,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 23,
             "optimize_bitrate": 1,
             "audio_bitrate": 96
           },
@@ -78,7 +75,6 @@ Produces a single master HLS playlist with multiple bitrate variants. For ABR, a
             "resolution": 360,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 23,
             "optimize_bitrate": 1,
             "audio_bitrate": 96
           }
@@ -117,7 +113,8 @@ Apply the chosen `framerate`/`keyframe` to **every** entry in the `stream[]` arr
 - **Single folder layout**: add `"single_folder": 1` to flatten all files into one directory.
 - **DRM**: add a `cenc_drm` block for Widevine/PlayReady or `fps_drm` for Fairplay (recipe coming in M4).
 - **Custom master filename**: `"playlist_name": "stream.m3u8"` overrides the default `master.m3u8`.
-- **Fixed bitrate ladder**: replace `quality` per-stream with `bitrate` values (kbps) and remove `optimize_bitrate` from each stream.
+- **Fixed bitrate ladder**: drop `optimize_bitrate` from each stream and add `"bitrate": <kbps>` instead. (Per-title supersedes both `quality` and `bitrate` when enabled.)
+- **Fixed CRF (no per-title)**: drop `optimize_bitrate` from each stream and add `"quality": <CRF>` instead.
 - **Bounded per-title CRF**: add `min_crf` / `max_crf` / `adjust_crf` next to `optimize_bitrate` on each stream entry when you need quality floor/ceiling — see `assets/recipes/per_title_encoding.md` for details.
 
 ## Schema pointers

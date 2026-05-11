@@ -7,7 +7,8 @@
 - HLS → `hls_abr.md` recipe, default 4-rung ladder.
 - Qencode-managed S3 destination → no `key`, no `secret`, no `permissions`, no `storage_class`.
 - Trailing `/` on the destination URL because HLS writes to a folder.
-- All per-rendition params (`video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `quality`, `optimize_bitrate`, `audio_bitrate`) live on each `stream[]` entry — the format level only carries packaging (`segment_duration`) + destination.
+- All per-rendition params (`video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `optimize_bitrate`, `audio_bitrate`) live on each `stream[]` entry — the format level only carries packaging (`segment_duration`) + destination.
+- `optimize_bitrate: 1` alone (no `quality` or `bitrate`); per-title picks the CRF.
 
 ## Expected JSON
 
@@ -30,7 +31,6 @@
             "resolution": 1080,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
@@ -40,7 +40,6 @@
             "resolution": 720,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
@@ -50,7 +49,6 @@
             "resolution": 540,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 23,
             "optimize_bitrate": 1,
             "audio_bitrate": 96
           },
@@ -60,7 +58,6 @@
             "resolution": 360,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 23,
             "optimize_bitrate": 1,
             "audio_bitrate": 96
           }

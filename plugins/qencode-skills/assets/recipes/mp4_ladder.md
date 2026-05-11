@@ -40,7 +40,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per scene. 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 1080,
-        "quality": 22,
         "optimize_bitrate": 1,
         "audio_bitrate": 128,
         "destination": {
@@ -52,7 +51,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per scene. 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 720,
-        "quality": 22,
         "optimize_bitrate": 1,
         "audio_bitrate": 128,
         "destination": {
@@ -64,7 +62,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per scene. 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 480,
-        "quality": 23,
         "optimize_bitrate": 1,
         "audio_bitrate": 96,
         "destination": {
@@ -76,7 +73,6 @@ Per-title encoding (`optimize_bitrate: 1`) auto-selects the best CRF per scene. 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 360,
-        "quality": 23,
         "optimize_bitrate": 1,
         "audio_bitrate": 96,
         "destination": {
@@ -96,8 +92,8 @@ For AWS S3, Cloudflare R2, Backblaze B2, Azure Blob, FTP/SFTP, fan-out to multip
 
 - **Codec**: swap `libx264` → `libx265` for HEVC (smaller files, narrower playback support) or `libsvtav1` for AV1 (smallest, requires `encoder_version: 2`, which is already set).
 - **Force exact dimensions**: replace `resolution` with `size: "1920x1080"` and add `resize_mode: "crop"` if you need to force a specific aspect ratio. Otherwise leave `resolution` alone — it preserves source aspect ratio for both landscape and portrait sources.
-- **Fixed bitrate target** (CDN/contract): replace `quality` + `optimize_bitrate` block with `"bitrate": 5000` (in kbps). Skip per-title in that case.
-- **Skip per-title**: drop `optimize_bitrate` and use just `quality: <CRF>` for a fixed-CRF encode.
+- **Fixed bitrate target** (CDN/contract): drop `optimize_bitrate` and add `"bitrate": 5000` (in kbps).
+- **Fixed CRF (no per-title)**: drop `optimize_bitrate` and add `"quality": <CRF>` (typical range 18–28).
 - **Bound per-title CRF**: add `min_crf` / `max_crf` / `adjust_crf` next to `optimize_bitrate` when you need a quality floor or ceiling — see `assets/recipes/per_title_encoding.md`.
 - **No destination** = 24-hour temp storage. Useful for quick previews; warn the user before submitting.
 

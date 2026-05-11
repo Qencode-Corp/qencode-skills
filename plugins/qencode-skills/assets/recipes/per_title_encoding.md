@@ -17,6 +17,8 @@ Per-Title Encoding analyzes the source video and chooses the best CRF per scene 
 
 **Pricing note:** enabling `optimize_bitrate: 1` multiplies the per-output price by **1.5×** (the analysis pass costs extra). Worth it for production deliverables.
 
+**Mutual exclusion:** `optimize_bitrate: 1` supersedes both `quality` (CRF) and `bitrate` (CBR) — those fields are **ignored** when per-title is on. Don't pair them. The only knobs that affect per-title's auto-pick are `min_crf`, `max_crf`, and `adjust_crf` (all optional).
+
 ## Minimum config
 
 Just turn it on:
@@ -86,7 +88,6 @@ For ABR ladders (`advanced_hls`, `advanced_dash`), put `optimize_bitrate` (and t
     "resolution": 1080,
     "framerate": "30",
     "keyframe": "60",
-    "quality": 22,
     "optimize_bitrate": 1,
     "min_crf": 18,
     "max_crf": 28,
@@ -95,6 +96,8 @@ For ABR ladders (`advanced_hls`, `advanced_dash`), put `optimize_bitrate` (and t
   /* … other rungs … */
 ]
 ```
+
+No `quality` and no `bitrate` here — per-title's auto-picked CRF replaces them.
 
 ## When NOT to use per-title
 
@@ -127,6 +130,6 @@ See also: `assets/best-practices.md` (§5 explicitly forbids `two_pass: 1` — u
 ## Gotchas
 
 - **Don't combine with `two_pass: 1`** — per-title supersedes two-pass and produces better results.
-- **Don't combine with `bitrate`** — `optimize_bitrate` is CRF-based; setting an explicit `bitrate` constrains it in a confusing way. Pick one.
+- **Don't combine with `quality` or `bitrate`** — per-title overrides both. Including them is silently ignored, which makes the JSON misleading. Use `optimize_bitrate: 1` alone, or use `quality`/`bitrate` *without* `optimize_bitrate`. Pick one quality control per format/stream.
 - The 1.5× pricing is per-output, not per-job. A 4-rung ladder with per-title costs 4 × 1.5× = 6× one fixed-rate rung.
 - For AV1 outputs that need ABR-style adaptive quality, use `quality` with `min_crf`/`max_crf` *without* `optimize_bitrate` — the codec's internal logic handles complexity adaptation.

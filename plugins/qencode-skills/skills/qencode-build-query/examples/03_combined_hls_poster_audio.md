@@ -35,7 +35,6 @@
             "resolution": 1080,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           },
@@ -45,7 +44,6 @@
             "resolution": 720,
             "framerate": "30",
             "keyframe": "60",
-            "quality": 22,
             "optimize_bitrate": 1,
             "audio_bitrate": 128
           }

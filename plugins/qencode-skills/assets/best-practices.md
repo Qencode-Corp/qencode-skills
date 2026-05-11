@@ -21,11 +21,11 @@ Use `width`, `height`, or `size` only when the user explicitly wants an exact di
 
 Use `"audio_codec": "libfdk_aac"` by default. Only fall back to `"aac"` if the user explicitly forbids libfdk_aac (e.g. licensing constraints).
 
-## 4. Quality, not bitrate
+## 4. Quality vs bitrate — but per-title supersedes both
 
-Default to CRF: `"quality": 22` per format/stream. CRF produces better quality per byte than constant-bitrate.
+When per-title is OFF, default to CRF: `"quality": 22` per format/stream. CRF produces better quality per byte than constant-bitrate. Use `"bitrate"` only when the user has a specific target bitrate (CDN contract, broadcast spec, fixed bandwidth budget).
 
-Use `"bitrate"` only when the user has a specific target bitrate (CDN contract, broadcast spec, fixed bandwidth budget).
+**When `optimize_bitrate: 1` is enabled (next rule), `quality` and `bitrate` are both ignored** — per-title picks the CRF itself. Don't include either alongside `optimize_bitrate: 1`.
 
 ## 5. Per-title encoding instead of two-pass
 
@@ -35,9 +35,9 @@ Use `"bitrate"` only when the user has a specific target bitrate (CDN contract, 
 "optimize_bitrate": 1
 ```
 
-Better quality than two-pass with one-pass wall-clock time. Per-title picks the optimal CRF per scene/source automatically.
+That's the whole thing — **don't pair with `quality` or `bitrate`** (per-title overrides them). Better quality than two-pass with one-pass wall-clock time. Per-title picks the optimal CRF per scene/source automatically.
 
-`min_crf` / `max_crf` / `adjust_crf` are optional bounds — leave them off by default and let per-title pick the full range. Add them only when you need a hard quality floor or ceiling for a specific deliverable (see `assets/recipes/per_title_encoding.md` for tuning details).
+`min_crf` / `max_crf` / `adjust_crf` are optional bounds on the auto-picked CRF — leave them off by default and let per-title pick the full range. Add them only when you need a hard quality floor or ceiling for a specific deliverable (see `assets/recipes/per_title_encoding.md` for tuning details).
 
 ## 6. Storage — see `assets/storage.md`
 
@@ -60,10 +60,9 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
 **On each `stream[]` entry:**
 - `video_codec`, `audio_codec`
 - `framerate`, `keyframe`
-- `quality` (CRF) or `bitrate`
+- `optimize_bitrate` for per-title encoding (and `min_crf` / `max_crf` / `adjust_crf` if you bound it) — **OR** `quality` (CRF) **OR** `bitrate` (CBR); these three are mutually exclusive — pick one quality control per stream
 - `audio_bitrate`
 - `resolution` (or `size` / `width` / `height`)
-- `optimize_bitrate` (and `min_crf` / `max_crf` / `adjust_crf` if you bound per-title)
 - `rotate`, `aspect_ratio`, `two_pass` (rare)
 
 **Stays at the format level:**
@@ -81,7 +80,6 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
     "resolution": 1080,
     "framerate": "30",
     "keyframe": "60",
-    "quality": 22,
     "optimize_bitrate": 1,
     "audio_bitrate": 128
   },
@@ -91,7 +89,6 @@ For `output: "advanced_hls"` or `"advanced_dash"`, the entire per-rendition enco
     "resolution": 720,
     "framerate": "30",
     "keyframe": "60",
-    "quality": 22,
     "optimize_bitrate": 1,
     "audio_bitrate": 128
   }
@@ -127,10 +124,8 @@ For source content with non-standard frame rates (film at 24, PAL at 25), match 
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 720,
-        "quality": 22,
         "optimize_bitrate": 1,
-        "min_crf": 18,
-        "max_crf": 28,
+        "audio_bitrate": 128,
         "destination": { /* see §6/§7 */ }
       }
     ]
@@ -138,4 +133,4 @@ For source content with non-standard frame rates (film at 24, PAL at 25), match 
 }
 ```
 
-For HLS/DASH, the format block omits all per-rendition params and instead carries a `stream[]` array; each entry holds `video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `quality`, `optimize_bitrate`, `audio_bitrate` per rung. See §7.
+For HLS/DASH, the format block omits all per-rendition params and instead carries a `stream[]` array; each entry holds `video_codec`, `audio_codec`, `resolution`, `framerate`, `keyframe`, `optimize_bitrate`, `audio_bitrate` per rung. See §7.

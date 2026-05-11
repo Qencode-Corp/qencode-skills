@@ -30,7 +30,6 @@ Currently supported subtitle formats: `.srt`, `.ass`.
         "video_codec": "libx264",
         "audio_codec": "libfdk_aac",
         "resolution": 720,
-        "quality": 22,
         "optimize_bitrate": 1,
         "subtitles": {
           "sources": [
@@ -114,8 +113,8 @@ Subtitle configuration belongs on the format block for ABR outputs too, not on i
     "url": "s3://us-west.s3.qencode.com/yourbucket/hls/"
   },
   "stream": [
-    { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 1080, "framerate": "30", "keyframe": "60", "quality": 22 },
-    { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 720, "framerate": "30", "keyframe": "60", "quality": 22 }
+    { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 1080, "framerate": "30", "keyframe": "60", "optimize_bitrate": 1 },
+    { "video_codec": "libx264", "audio_codec": "libfdk_aac", "resolution": 720, "framerate": "30", "keyframe": "60", "optimize_bitrate": 1 }
   ]
 }
 ```
