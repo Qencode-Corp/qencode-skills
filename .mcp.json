@@ -1,0 +1,9 @@
+{
+  "qencode": {
+    "type": "stdio",
+    "command": "qencode-mcp",
+    "env": {
+      "QENCODE_API_KEY": "${QENCODE_API_KEY}"
+    }
+  }
+}

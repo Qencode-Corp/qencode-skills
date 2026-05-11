@@ -1,0 +1,10 @@
+{
+  "name": "qencode-skills",
+  "description": "Skills for the Qencode Transcoding API — let agents compose, submit, monitor, and troubleshoot encoding jobs. v1 covers transcoding only; CDN/streaming/player coming later.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Qencode",
+    "url": "https://qencode.com"
+  },
+  "homepage": "https://docs.qencode.com/api-reference/transcoding/"
+}

@@ -1,0 +1,1346 @@
+{
+  "access_token.api_key": {
+    "description": "For transcoding, an API key is assigned to each Project created in your Qencode account. After logging into your account, you can manage your API keys on the Projects page, as well as track the usage of each Project on the Statistics page .",
+    "parent": "access_token",
+    "required": true,
+    "type": "string"
+  },
+  "access_token.returns.token": {
+    "description": "After API key authentication is complete, you will receive this session-based token, which is used to authenticate all other requests through the Qencode API.",
+    "parent": "access_token.returns",
+    "required": false,
+    "type": ""
+  },
+  "create_task.returns.task_token": {
+    "description": "The transcoding task token (also referred to as Job ID) uniquely identifies transcoding job in the system. You can use this value with ID to track down jobs in the UI or as an argument in the /v1/status method to get the status of jobs.",
+    "parent": "create_task.returns",
+    "required": false,
+    "type": ""
+  },
+  "create_task.returns.upload_url": {
+    "description": "When uploading videos with the tus.io protocol, upload_url is the endpoint used to upload video files directly to the Qencode servers.",
+    "parent": "create_task.returns",
+    "required": false,
+    "type": ""
+  },
+  "create_task.token": {
+    "description": "This session token is used to get the task_token, which is required to start transcoding jobs.",
+    "parent": "create_task",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.payload": {
+    "description": "Any string up to 1000 characters long that allows you to pass additional data or JSON objects (internal IDs perhaps) which is sent back later to your server with HTTP callback.",
+    "parent": "start_encode2",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query": {
+    "description": "The query JSON object contains all of the input attributes used for defining the transcoding settings for the task.",
+    "parent": "start_encode2",
+    "required": true,
+    "type": "json"
+  },
+  "start_encode2.query.callback_url": {
+    "description": "URL of an endpoint on your server to handle task callbacks. See Receiving Callbacks .",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "string (4000 characters max)"
+  },
+  "start_encode2.query.encoder_version": {
+    "description": "Specifies encoding system version for this task. Possible values are 1 and 2. Defaults to 1.",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "integer (1 or 2)"
+  },
+  "start_encode2.query.format": {
+    "description": "Each of the objects in this list is used to define all the transcoding parameters for each output format. See the format object attributes description below for more details.",
+    "parent": "start_encode2.query",
+    "required": true,
+    "type": "array of objects"
+  },
+  "start_encode2.query.format[].adjust_crf": {
+    "description": "Adjusts best CRF predicted for each scene with the specified value in Per-Title Encoding mode. Should be integer in range -10..10. Defaults to 0. Resulting CRF value can only be adjusted within the limits specified with min_crf and/or max_crf parameters in case they are applied.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].allow_soft_fail": {
+    "description": "This allows a non-critical output to soft-fail, so that other outputs can continue processing in case there is an error. This helps ensure that important outputs are always processed.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].aspect_ratio": {
+    "description": "Examples: \"4:3\", \"16:9\", \"1.33\", \"1.77\". Defaults to input video aspect ratio. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "float or string"
+  },
+  "start_encode2.query.format[].audio_bitrate": {
+    "description": "Defaults to 64. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].audio_channels_number": {
+    "description": "Default value is 2. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].audio_codec": {
+    "description": "Possible values are: libfdk_aac, aac, libvorbis, mp3, libopus. Defaults to libfdk_aac. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].audio_copy": {
+    "description": "Used with repack output only. Defaults to 1. If 0 is specified audio stream is removed from the output.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].audio_mute": {
+    "description": "If set to 1, replaces audio in the output with a silent track. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].audio_pan": {
+    "description": "Contains a JSON object with audio mapping. Attribute names are output audio channels and values are audio channels from input. Example: {\"c0\" : \"c2\", \"c1\" : \"c0\"} The above specifies stereo output where channel 0 of the output is mapped to channel 2 of the input and channel 1 of the output is mapped to the input channel 0.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].audio_sample_rate": {
+    "description": "Defaults to 44100. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].bitrate": {
+    "description": "Output video stream bitrate in kbps Use two pass mode in case you want to achieve exact bitrate values. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].cenc_drm": {
+    "description": "If specified, enables DRM encryption for Widevine and Playready.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].cenc_drm.iv": {
+    "description": "Should be specified in case present in DRM provider API response, e.g. in CPIX response this is explicitIV attribute in tag. When getting from CPIX response, should be decoded from base64 and encoded to hex",
+    "parent": "start_encode2.query.format[].cenc_drm",
+    "required": false,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].cenc_drm.key": {
+    "description": "When getting from CPIX response, should be decoded from base64 and encoded to hex",
+    "parent": "start_encode2.query.format[].cenc_drm",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].cenc_drm.key_id": {
+    "description": "When getting from CPIX response, you need to remove dash characters from it",
+    "parent": "start_encode2.query.format[].cenc_drm",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].cenc_drm.la_url": {
+    "description": "License server URL",
+    "parent": "start_encode2.query.format[].cenc_drm",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].cenc_drm.pssh": {
+    "description": "DRM encryption PSSH",
+    "parent": "start_encode2.query.format[].cenc_drm",
+    "required": true,
+    "type": "string (base64)"
+  },
+  "start_encode2.query.format[].color_primaries": {
+    "description": "Possible values: bt709, bt470m, bt470bg, smpte170m, smpte240m, film, bt2020, smpte428, smpte431, smpte432, jedec-p22. Set this to 1 in order to preserve original value. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].color_range": {
+    "description": "MPEG vs JPEG YUV range. Possible values: tv, mpeg, pc, jpeg. Set this to 1 in order to preserve original value. For HLS or DASH output specify this parameter on the stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].color_space": {
+    "description": "Possible values: rgb, bt709, fcc, bt470bg, smpte170m, smpte240m, ycocg, bt2020nc, bt2020_ncl, bt2020c, bt2020_cl, smpte2085. Set this to 1 in order to preserve original value. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].color_trc": {
+    "description": "Possible values: bt709, gamma22, gamma28, smpte170m, smpte240m, linear, log, log100, log_sqrt, log316, iec61966_2_4, bt1361, iec61966_2_1, bt2020_10bit, bt2020_12bit, smpte2084, smpte428, arib-std-b67. Set this to 1 in order to preserve original value. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].columns": {
+    "description": "You should set sprite param to 1 in order to use this setting.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].create_m3u8_playlist": {
+    "description": "If set to 1, creates playlist.m3u8 file in the DASH output. Use this to generate CMAF.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].deinterlace": {
+    "description": "Defaults to 0. You should use it on interlaced content only.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].destination": {
+    "description": "Describes output endpoint, path, credentials and permissions for the destination of the output files created a result of the API request. You can save to multiple destinations , by putting all of your destination objects into array. Qencode offers a wide range of options for destinations, some of which are covered in our Media Storage Tutorials section.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object or array of objects"
+  },
+  "start_encode2.query.format[].destination.cache_control": {
+    "description": "The CacheControl HTTP header is used to specify directives for caching mechanisms in both requests and responses. When used in responses, like when uploading files to S3, it provides instructions to web caches (including browsers and proxies) on how they should handle caching of the asset. Here are some commonly used CacheControl directives you can apply: max-age=[seconds]: Specifies the maximum amount of time a resource will be considered fresh. This is relative to the time of the request for the resource. s-maxage=[seconds]: Similar to max-age, but it applies only to shared caches (like proxies) and is ignored by a private cache (like a browser). public: Marks the response as cacheable by any cache, even if the response is normally non-cacheable. For example, it can be used for authenticated responses that you want to be cached. private: Indicates that the response is intended for a single user and must not be stored by a shared cache. A private browser cache may store it. no-cache: Forces caches to submit the request to the origin server for validation before releasing a cached copy, every time. This is useful for ensuring up-to-date responses without having to bypass the cache altogether. no-store: The strictest instruction. It tells the cache not to store any part of the request or response. This is used for sensitive information that should not be stored in a cache. must-revalidate: Indicates that the cache must verify the status of the stale resources before using it and expired ones should not be used. proxy-revalidate: Similar to must-revalidate, but it only applies to shared caches. no-transform: Prohibits caches or proxies from modifying the response data. This can be important for applications that rely on specific data formats. You can combine these directives as needed, for example: \"cache_control\": \"public, max-age=86400, must-revalidate\" This combination tells caches that the file can be stored and served from cache to anyone, it\u2019s considered fresh for one day, and after that, it must be revalidated at the origin server before it can be served again.",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.is_passive": {
+    "description": "Enables FTP passive mode",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].destination.key": {
+    "description": "Your access key for S3 bucket, or username for FTP server, etc.",
+    "parent": "start_encode2.query.format[].destination",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.permissions": {
+    "description": "For S3 only. Specifies object access permissions. For AWS possible values are: 'private', 'public-read', 'authenticated-read', 'bucket-owner-read' and others described in Access Control List Overview . Default value is 'private'. Specify 'public-read' value in order to make output video publicly accessible.",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.secret": {
+    "description": "Your secret key for S3 bucket, or password for FTP server, etc.",
+    "parent": "start_encode2.query.format[].destination",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.storage_class": {
+    "description": "Only for AWS S3. Specifies storage class for the output. You can specify REDUCED_REDUNDANCY value in order to lower your storage costs for noncritical, reproducible data. See Reduced redundancy storage description .",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.tcp_port": {
+    "description": "TCP port for Aspera",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].destination.udp_port": {
+    "description": "UDP port for Aspera",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].destination.url": {
+    "description": "Specifies the output url. E.g. s3://example.com/bucket/video.mp4. For 'mp4', 'webm', 'mp3' and 'thumbnail' outputs it should contain path and name of the output file. For HLS or MPEG-DASH destination url should be path to a folder in your bucket. For 'thumbnails' output it should be path to a folder where thumbnails and .vtt file are saved. For 'speech_to_text' output it should be path to a folder where trascript and subtitles files are saved. For 'vmaf' output it should be path to a JSON file containing VMAF statistics including file name and extension. Supported storage prefixes are: s3:// - for any S3-compatible storage (Qencode, AWS, GCS, DigitalOcean, etc.) b2:// - for Backblaze B2 azblob:// - for Azure Blob Storage ftp:// or ftps:// - for any FTP server sftp:// - for any FTP over SSH server",
+    "parent": "start_encode2.query.format[].destination",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].destination.use_tls": {
+    "description": "Enables FTP over SSL (TLS)",
+    "parent": "start_encode2.query.format[].destination",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].distorted": {
+    "description": "Works with 'vmaf' output only. Specifies the URL of the distorted video. Original video is specified using the source param.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].duration": {
+    "description": "Specifies duration (in seconds) of the output audio or video clip to be transcoded. Can be also used with 'vmaf' output to limit the lentgh of the video analyzed.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "float"
+  },
+  "start_encode2.query.format[].encryption": {
+    "description": "If specified, enables AES-128 encryption.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].encryption.iv": {
+    "description": "Encryption key IV",
+    "parent": "start_encode2.query.format[].encryption",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].encryption.key": {
+    "description": "Encryption key",
+    "parent": "start_encode2.query.format[].encryption",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].encryption.key_url": {
+    "description": "URL, pointing to 128-bit encryption key in binary format.",
+    "parent": "start_encode2.query.format[].encryption",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].fmp4": {
+    "description": "If set to 1, creates HLS chunks in fMp4 format instead of TS.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].fps_drm": {
+    "description": "If specified, enables DRM encryption for Fairplay.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].fps_drm.iv": {
+    "description": "DRM encryption key IV",
+    "parent": "start_encode2.query.format[].fps_drm",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].fps_drm.key": {
+    "description": "DRM encryption key",
+    "parent": "start_encode2.query.format[].fps_drm",
+    "required": true,
+    "type": "string (hex)"
+  },
+  "start_encode2.query.format[].fps_drm.key_url": {
+    "description": "Example for EZDRM: skd://fps.ezdrm.com/;<kid>",
+    "parent": "start_encode2.query.format[].fps_drm",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].frame_number": {
+    "description": "Specify the exact frame number to extract a thumbnail from. Use this parameter instead of \"time\" when you need frame-accurate thumbnails, which is especially useful for videos with non-standard frame rates or workflows that require precise frame selection. If both frame_number and time are provided, frame_number takes priority.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].framerate": {
+    "description": "Defaults to original frame rate. If you don't specify framerate for a stitch job, output framerate will be equal to framerate of the first video in a batch. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].framerate_limit": {
+    "description": "The framerate_limit parameter defines the maximum frame rate set for the output of an encoding job. If the source video\u2019s frame rate exceeds the specified framerate_limit, the output video is encoded using the frame rate defined by this parameter. If the source video\u2019s frame rate is equal to or lower than the framerate_limit, no change is applied and the original frame rate is preserved. This parameter allows users to prevent excessively high frame rates (e.g., over 120 fps) from being preserved unnecessarily, optimizing file size and playback performance for high frame rate sources, while leaving standard frame rate videos unchanged. If both framerate and framerate_limit are specified, the framerate parameter takes precedence. Default: None (no limit applied) Example: Source: 120 fps, framerate_limit: 60 \u2192 Output: 60 fps Source: 30 fps, framerate_limit: 60 \u2192 Output: 30 fps",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].hdr_to_sdr": {
+    "description": "Enables HDR (high dynamic rate) to SDR (standard dynamic rate) conversion mode. Possible values: 0 or 1. Defaults to 0. HDR to SDR conversion can slow down transcoding significantly so standard price is multiplied by 2.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].height": {
+    "description": "Output video frame (or thumbnail) height in pixels. If specified without \"width\" attribute, frame width is calculated proportionally to original width. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].i_frames_only": {
+    "description": "If set to 1, creates an #EXT-X-I-FRAMES-ONLY playlist for HLS output. Defaults to 0",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].image_format": {
+    "description": "Specifies image format for 'thumbnail' or 'thumbnails' output. Possible values: png, jpg. Defaults to 'png'. Note: use \"quality\" parameter along with \"image_format\": \"jpg\" to specify image quality.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].incremental_tag": {
+    "description": "A unique string that serves as an identifier for a chain of sequential transcoding jobs with HLS or DASH outputs (Incremental ABR). This tag is crucial for the system to track previously processed resolutions and to append new ones to existing HLS or DASH outputs. When initiating the first job in a series, the incremental_tag can be manually specified by the user or set to \"auto\", which prompts the system to generate a unique identifier. This generated tag is then returned in the job status response. For subsequent jobs in the chain, the same incremental_tag must be used to ensure that only new resolutions are processed and correctly added to the playlist, avoiding duplication and ensuring efficiency in content delivery.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].inject_360_metadata": {
+    "description": "Defines the video's spatial metadata used for 360\u00b0 and VR180 playback compatibility. It supports specifying the projection type (equirectangular or rectangular), stereo layout (none, left-right, or top-bottom), and optional VR180 settings. When vr180 is true, additional geometric fields \u2014 full_width, full_height, cropped_width, cropped_height, cropped_left, and cropped_top \u2014 are required and must be positive numeric values. These describe the cropped front hemisphere of the full frame, ensuring the VR180 video renders correctly in compatible players.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].inject_360_metadata.cropped_height": {
+    "description": "The cropped_height parameter specifies the vertical size of the visible portion of a VR180 frame. It must be a positive numeric value and satisfy the constraint cropped_top + cropped_height \u2264 full_height. This ensures that the cropped region does not exceed the frame\u2019s total height.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.cropped_left": {
+    "description": "The cropped_left parameter defines the x-coordinate offset where the cropped region begins within the full-width frame. It must be a positive float (or zero) such that cropped_left + cropped_width does not exceed full_width. This value is essential for correctly aligning the VR180 viewport within the larger frame.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.cropped_top": {
+    "description": "The cropped_top parameter defines the y-coordinate offset where the cropped region starts within the full-height frame. It must be a positive float (or zero) such that cropped_top + cropped_height does not exceed full_height. This parameter ensures the cropped section is properly positioned vertically in the VR180 source image.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.cropped_width": {
+    "description": "The cropped_width parameter specifies the horizontal size of the active or visible region in a VR180 frame. It must be a positive numeric value and satisfy the constraint cropped_left + cropped_width \u2264 full_width. This ensures the visible region fits entirely within the source frame boundaries.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.full_height": {
+    "description": "The full_height parameter defines the complete vertical dimension of the original video frame in pixels. It indicates the total height of the full source image prior to cropping operations. When vr180 is enabled, this value must be greater than zero and large enough to contain the defined cropped region.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.full_width": {
+    "description": "The full_width parameter defines the complete horizontal dimension of the original video frame in pixels. It represents the total width of the full equirectangular or VR180 source image prior to any cropping. This value must be a positive number and is used to validate crop boundaries when vr180 mode is enabled.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].inject_360_metadata.projection": {
+    "description": "The projection parameter specifies the spatial mapping method used to represent spherical or panoramic video frames in a 2D format. It determines how the video player should interpret pixel coordinates when rendering immersive content. Supported values are: equirectangular \u2014 standard full-sphere 360\u00b0 projection, mapping latitude/longitude lines to a rectangular frame (360\u00b0\u00d7180\u00b0). rectangular \u2014 standard flat projection for non-spherical videos. This parameter is required for correct playback in 360\u00b0 and VR environments, ensuring the media renderer applies the appropriate transformation for user navigation or headset viewing.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].inject_360_metadata.side_data_type": {
+    "description": "The side_data_type parameter defines the category of supplemental video metadata (\u201cside data\u201d) to be attached to the encoded stream. This metadata provides additional context beyond the raw pixel data \u2014 for example, spatial orientation for 360\u00b0/VR content, stereo layout for 3D playback, or other auxiliary information used by video players and decoders. Possible values listed below. Value Description Spherical Mapping Describes 360\u00b0/VR spatial layout (e.g., equirectangular), enabling correct panoramic rendering. Stereo 3D Indicates stereoscopic arrangement (left-right or top-bottom) so players can split frames per eye.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].inject_360_metadata.stereo": {
+    "description": "The stereo parameter determines whether the video contains stereoscopic (3D) imagery and, if so, how the left and right eye views are organized within each frame. It allows players and VR systems to correctly interpret and render depth perception. Supported values include: none \u2014 the video is monoscopic (2D). left-right \u2014 stereoscopic layout with the left-eye view on the left half and the right-eye view on the right half of the frame. top-bottom \u2014 stereoscopic layout with the left-eye view on the top half and the right-eye view on the bottom half. This parameter ensures compatibility with VR and 3D-enabled playback systems by informing them how to split or interpret the frame for each eye's perspective.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].inject_360_metadata.vr180": {
+    "description": "The vr180 parameter is a boolean flag that specifies if the video should be treated as VR180 rather than a full 360\u00b0 sphere. When set to true, the video represents only the front hemisphere (180\u00b0) of the scene, often with stereoscopic depth for immersive playback. In this mode, additional cropping geometry fields \u2014 full_width, full_height, cropped_width, cropped_height, cropped_left, and cropped_top \u2014 become required to define the front-facing region of the full frame. These values must be positive and within the frame's total dimensions. Setting vr180 ensures the correct metadata is injected for VR180-compatible players (e.g., YouTube VR, Meta Quest), allowing the viewer to experience natural forward-facing immersion rather than full spherical navigation.",
+    "parent": "start_encode2.query.format[].inject_360_metadata",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].interval": {
+    "description": "Interval in seconds between thumbnail images. Used with output: thumbnails.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].json": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 1. If 0 is specified json file is not generated.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].json_name": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 'timestamps.json'.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].keep_360_metadata": {
+    "description": "When set to 1, the encoder retains the original 360\u00b0 (spherical projection) metadata \u2014 such as projection type, field of view, and spatial orientation \u2014 in the output container. This ensures that supported players and platforms correctly recognize the video as 360\u00b0 content, allowing users to navigate and view it in an immersive environment. When set to 0, any spherical or VR-specific metadata (e.g., sv3d, st3d, or GSpherical:* tags) will be removed from the output. This option does not affect the video content itself, only the preservation of spherical metadata for playback compatibility. Requires encoder_version : 2 Supported output formats: mp4 Supported input formats: mp4, mov Defaults to 0.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].keyframe": {
+    "description": "Keyframe interval (in frames). Defaults to 90. For HLS or DASH output specify this parameter on stream object level. You can also specify keyframe interval in seconds, just by adding \"s\" character to the value, e.g. \"3s\"",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer or string"
+  },
+  "start_encode2.query.format[].language": {
+    "description": "Used with 'speech_to_text' output only. Improve accuracy and control over transcription by defining the primary language for speech-to-text processing. Supports over 50 languages using he two-letter ISO 639-1 codes (e.g., 'en' for English, 'es' for Spanish). See full list of supported languages in our Speech-to-Text Tutorial . If not provided, the system automatically identifies the language, though direct specification is recommended for optimal accuracy.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].logo": {
+    "description": "For streaming formats like HLS or MPEG-DASH specify logo as an attribute of a stream object. It will be good idea to have different size logo images for output streams of different resolutions. To create dynamic logos, specify an array of logo objects, each containing a logo for a specific time range of the video. Supported image formats for logo are JPEG and PNG.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object or array of objects"
+  },
+  "start_encode2.query.format[].logo.duration": {
+    "description": "If specified, sets the duration for the dynamic logo or watermark.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": false,
+    "type": "float"
+  },
+  "start_encode2.query.format[].logo.opacity": {
+    "description": "Specifies watermark opacity. Possible values are floats in 0..1 range. Defaults to 1.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": false,
+    "type": "float (from 0 to 1)"
+  },
+  "start_encode2.query.format[].logo.source": {
+    "description": "This should be publicly available url.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].logo.start_time": {
+    "description": "If specified, sets the start time for the dynamic logo or watermark.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": false,
+    "type": "float"
+  },
+  "start_encode2.query.format[].logo.x": {
+    "description": "Image X position relative to the video left side. Specifying negative value for the X position changes relation to the right side.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].logo.y": {
+    "description": "Image Y position relative to the video top. Specifying negative value for the Y position changes relation to the bottom of the video.",
+    "parent": "start_encode2.query.format[].logo",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].max_crf": {
+    "description": "Limits the highest CRF (quality) for Per-Title Encoding mode to the specified value. Possible values: from 0 to 51. Defaults to 51.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].metadata_copy": {
+    "description": "Used with repack output only. Defaults to 1. If 0 is specified metadata is removed from the output.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].metadata_version": {
+    "description": "Specifies FFPROBE util version used to get video metadata. Used with 'output' set to 'metadata'. Default value is 4.1.5.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].min_crf": {
+    "description": "Limits the lowest CRF (quality) for Per-Title Encoding mode to the specified value. Possible values: from 0 to 51. Defaults to 0.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].mode": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 'balanced'. Adjusts the transcription process to balance between speed and accuracy, accepting three values: balanced : Provides a balance of speed and accuracy that is suitable for most solutions. accuracy : Provides improved transcription accuracy at the expense of speed. speed : Provides low cost, fast transcription.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].n_subsample": {
+    "description": "Works with 'vmaf' output only. Defines every N-th frame to be used for VMAF calculation. Speeds up VMAF processing by skipping frames. If not set, VMAF is calculated for all frames.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].optimize_bitrate": {
+    "description": "In Per-Title mode system runs a special analysis on each source video to find best encoding params for each scene. This allows to significantly decrease output bitrate without sacrificing quality. Currently available for the H.264 and H.265 codecs only. Possible values: 0 or 1. Defaults to 0. Enabling optimize_bitrate option multiplies price by 1.5x",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].output": {
+    "description": "Output media format. Currently supported values are mp4, webm, advanced_hls, advanced_dash, webm_dash, repack, mp3, hls_audio, flac, gif, thumbnail, thumbnails, metadata, speech_to_text, vmaf. See Supported formats section for more details. The thumbnail & thumbnails values are used for creation of thumbnail images. See the Create thumbnails section for more details. Repack output type is used for transmuxing, when no transcoding is done and just media container is changed in output. See the Transmuxing tutorial for more details. VMAF output works with encoder_version: 1 only. See the Get video quality metrics tutorial for more details.",
+    "parent": "start_encode2.query.format",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].packager_version": {
+    "description": "This determines how the final output media is packaged, particularly in workflows involving encryption and DRM. Works only with HLS or DASH outputs. Allowed values: 1 or 2. Defaults to 1.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].pix_format": {
+    "description": "Possible values are yuv420p, yuv422p, yuvj420p, yuvj422p. Defaults to yuv420p. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].playlist_name": {
+    "description": "Defaults to 'playlist.m3u8' for HLS and 'playlist.mpd' for DASH outputs. Please specify both filename and extension for custom playlist name.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].profile": {
+    "description": "x264 video codec settings profile. Possible values are high, main, baseline. Defaults to main. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].quality": {
+    "description": "Also known as \"Constant rate factor\" (CRF). Use this parameter to produce optimized videos with variable bitrate. For H.264 the range is 0-51: where 0 is lossless and 51 is worst possible. A lower value is a higher quality and a subjectively sane range is 18-28. Consider 18 to be visually lossless or nearly so: it should look the same or nearly the same as the input but it isn't technically lossless. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].resize_mode": {
+    "description": "Specify 'scale' in case you want to transform frame to fit output size. Specify 'crop' in case you want to preserve input video aspect ratio. In case input and output aspect ratio do not match and 'crop' mode is enabled, output video is cropped or black bars are added, depending on the output dimensions. Possible values: crop, scale. Defaults to 'scale'.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string ('scale' or 'crop')"
+  },
+  "start_encode2.query.format[].resolution": {
+    "description": "You can specify resolution instead of providing width or height value for a video output. In this case system dynamically decides if this refers to video frame width or height depending on the video orientaion. For horizontal videos resolution value refers to video height. For vertical videos resolution value refers to video width. size , width and height params are ignored in case resolution is specified.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].rotate": {
+    "description": "Rotate video through specified degrees value. Possible values are 90, 180, 270. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].segment_duration": {
+    "description": "Segment duration to split media (in seconds). Refers to adaptive streaming formats like HLS or DASH. Defaults to 9.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].separate_audio": {
+    "description": "Specifies if audio stream is a separate HLS folder or put into video chunks. If set to 1, creates audio as a separate HLS stream. Defaults to 1.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].shortest": {
+    "description": "Works with 'vmaf' output only. When comparing two video clips of different lengths, this parameter determines the comparison behavior . If enabled, stops analysis at the last frame of the shorter clip (original or distorted) to avoid mismatched durations. Defaults to 0.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].single_folder": {
+    "description": "By default HLS streams are put into sub-folders named video_1, video_2, etc. You can change this behavior by enabling this setting so all chunks and playlists are saved into the same folder. Defaults to 0.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].size": {
+    "description": "Output video or image frame size in pixels (\"width\"x\"height\"). Defaults to original frame size. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string (WxH)"
+  },
+  "start_encode2.query.format[].sprite": {
+    "description": "Stitches thumbnails into a single lager sprite image. Possible values: 0, 1. Defaults to 0. Can be used in combination with columns param.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.format[].srt": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 1. If 0 is specified SRT file is not generated.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].srt_name": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 'subtitles.srt'.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].start_time": {
+    "description": "In order to create a smaller video clip from the source video, start_time is used along with duration to define the point of the video to be used for the output video. Specifies the start time (in seconds) in input video to begin transcoding from.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "float"
+  },
+  "start_encode2.query.format[].stream": {
+    "description": "Contains a list of elements each describing a single view stream for adaptive streaming format. Use stream objects for HLS or MPEG-DASH outputs. Stream object is used with http-streaming formats (HLS and MPEG-DASH) and specifies a set of attributes defining stream properties. This is a subset of attributes working on a Format level for file-based output formats like MP4 or WEBM. These are size, bitrate, framerate, etc. There are a few attributes only used with Stream object listed below.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "array of objects"
+  },
+  "start_encode2.query.format[].stream[].chunklist_name": {
+    "description": "Specifies custom file name for HLS or DASH chunk playlist.",
+    "parent": "start_encode2.query.format[].stream",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].subtitles": {
+    "description": "Contains object, specifying subtitles (closed captions) configuration. Contains sources - an optional array of subtitle objects for a closed captions stream. Each object should have source and language attributes. You can also include optional parameter copy, specifying if eia608 or eia708 closed captions should be copied to output stream. Copy is set to 0 by deafault which means closed captions won't be copied to output stream.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].subtitles.copy": {
+    "description": "Enables copying of eia608 or eia708 captions",
+    "parent": "start_encode2.query.format[].subtitles",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].subtitles.sources": {
+    "description": "List of subtitles sources",
+    "parent": "start_encode2.query.format[].subtitles",
+    "required": false,
+    "type": "array of objects"
+  },
+  "start_encode2.query.format[].subtitles.sources[].language": {
+    "description": "Specifies language for subtitles.",
+    "parent": "start_encode2.query.format[].subtitles.sources",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].subtitles.sources[].source": {
+    "description": "URL to a file with subtitles. Supported formats are: .ass, .srt",
+    "parent": "start_encode2.query.format[].subtitles.sources",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.format[].subtitles_copy": {
+    "description": "Used with repack output only. Defaults to 1. If 0 is specified subtitles are removed from the output.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].tag": {
+    "description": "Tag value to pass through encoding system. The value specified for a tag is available as 'user_tag' in job status response. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].tag_video": {
+    "description": "For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].time": {
+    "description": "Moment in video (% from video duration) to create thumbnail at. Used with output: thumbnail.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "float (from 0 to 1)"
+  },
+  "start_encode2.query.format[].transcript": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 1. If 0 is specified transcript file is not generated.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].transcript_name": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 'transcript.txt'.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].translate_languages": {
+    "description": "Used with 'speech_to_text' output only. Limits: Maximum 15 languages per job. Examples: [\"en\",\"de\",\"es\"], [\"uk\",\"cs\",\"de\",\"hy\"]",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "array"
+  },
+  "start_encode2.query.format[].two_pass": {
+    "description": "Use two-pass encoding to achieve exact bitrate value for output. Please note, two-pass encoding is almost twice slower than one-pass coding. The price is also increased twice. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].video_codec": {
+    "description": "Defaults to libx264. Possible values are: libx264, libx265, libvpx, libvpx-vp9, libsvtav1, lcevc_h264, lcevc_hevc. lcevc codecs are only supported with encoder_version set to 2. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters": {
+    "description": "Contains video codec parameters for advanced usage.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "object"
+  },
+  "start_encode2.query.format[].video_codec_parameters.aq_mode": {
+    "description": "Works with libsvtav1 codec only. Determines how bitrate allocation adapts to different areas of the frame, improving perceptual quality in complex or textured regions. Values: 0 - Disabled (default, uniform quantization) 1 \u2013 Variance-based adaptive quantization 2 \u2013 Complexity-based adaptive quantization 3 \u2013 Advanced adaptive quantization (highest perceptual optimization)",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1, 2, 3)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.b_strategy": {
+    "description": "Sets strategy to choose between I/P/B-frames.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.bufsize": {
+    "description": "Tells the encoder how often to calculate the average bitrate and check to see if it conforms to the average bitrate specified. For libx264 bufsize is specified in Mbps. For other codecs - in kbps.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].video_codec_parameters.cmp": {
+    "description": "Sets full pel me compare function.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.coder": {
+    "description": "Context-Adaptive Binary Arithmetic Coding (CABAC) is the default entropy encoder used by x264. Possible values are 1 and 0. Defaults to 1.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.dc_dithering_qp_saturate": {
+    "description": "Applies to lcevc video codecs enhancements only. Specifies the base QP value at which to saturate dither. Range: 0-51. Default: 36. Regardless of the base QP value, other low-level parameters make dithering adapt dithering strength settings based on frame luminosity (according to contrast sensitivity function) as well as presence of no-contrast plain graphics which would not benefit from dithering.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0-51)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.dc_dithering_qp_start": {
+    "description": "Applies to lcevc video codecs enhancements only. Specifies the base QP value at which to start applying dither. Range: 0-51. Default: 24.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0-51)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.dc_dithering_strength": {
+    "description": "Applies to lcevc video codecs enhancements only. Specifies the maximum dithering strength. Range: 0-10. The default value is 4. A value of 7-8 displays a more visible dither. A value of 2-3 should be used for substantially imperceptible dither.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0-10)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.dc_dithering_type": {
+    "description": "Applies to lcevc video codecs enhancements only. Specifies whether to apply a uniform dithering algorithm. If None is specified, no dithering is applied. Default for lcevc_tune psnr, vmaf and ssim. If Uniform is specified, Uniform random dithering is applied. Default for lcevc_tune vq.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.directpred": {
+    "description": "Defines motion detection type: 0 - none, 1 - spatial, 2 - temporal, 3 - auto. Defaults to 1.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.enable_dlf": {
+    "description": "Works with libsvtav1 codec only. The filter smooths visible block edges from compression. Recommended for most use cases unless maximum speed is required. Values: 0 - Disabled 1 \u2013 Enabled",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.enable_restoration": {
+    "description": "Works with libsvtav1 codec only. Applies advanced filters to reduce compression noise and artifacts, resulting in sharper output. Values: 0 - Disabled (faster processing, lower quality) 1 \u2013 Enabled (default, better artifact removal, improved fidelity)",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.fast_decode": {
+    "description": "Works with libsvtav1 codec only. Reduces decoding complexity, improving playback performance on constrained devices, at the cost of compression efficiency. Values: 0 - Disabled (default, full compression features enabled) 1 \u2013 Enabled (reduced complexity for faster decoding)",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.film_grain": {
+    "description": "Works with libsvtav1 codec only. Adds artificial grain to preserve the look of natural detail lost during compression. Often used for cinematic material. Values: 0 - Disabled (default) 1 \u2013 Enabled",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.flags": {
+    "description": "Set generic flags. Possible values: mv4, qpel, loop, qscale, pass1, pass2, gray, emu_edge, psnr, truncated, ildct, low_delay, global_header, bitexact, aic, cbp, qprd, ilme, cgop.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.flags2": {
+    "description": "Possible values are +bpyramid, +wpred, +mixed_refs, +dct8\u00d78, -fastpskip/+fastpskip, +aud. Defaults to None.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.hierarchical_levels": {
+    "description": "Works with libsvtav1 codec only. Controls the number of reference layers used for prediction. Higher values improve compression efficiency but increase complexity. Values: 0 \u2013 Single layer (lowest complexity, lowest efficiency) 1 \u2013 Two-level hierarchy 2 \u2013 Three-level hierarchy 3 \u2013 Four-level hierarchy (default, highest efficiency)",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1, 2, 3)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.i_qfactor": {
+    "description": "Sets QP factor between P and I frames.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.lcevc_tune": {
+    "description": "Applies to lcevc video codecs enhancements only. There are six variants of lcevc_tune, according to the aim of the encodes. Depending on the chosen tuning, the encoder will combine optimal settings and parameters according to that goal. The settings are as follows: Setting Description vq optimizes for visual quality. Default. vmaf optimizes for VMAF vmaf_neg optimizes for the new VMAF NEG (No Enhancement Gain) psnr optimizes for PSNR ssim optimizes for SSIM, MS-SSIM animation an alternative to 'vq', optimizes for visual quality of animation",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.level": {
+    "description": "Set of constraints that indicate a degree of required decoder performance for a profile. Consists from two digits. Possible values are: 30, 31, 40, 41, 42.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].video_codec_parameters.m_ad_mode": {
+    "description": "Specifies the M adaptive downsampling mode Mode Description disabled M adaptive downsampling disabled. Default for lcevc_tune=psnr, lcevc_tune=ssim and lcevc_tune=vmaf_neg. replace M adaptive downsampling is applied equally to both residual surfaces. Default for lcevc_tune=vq and lcevc_tune=vmaf. separate M adaptive downsampling is applied separately to residual surfaces. Default for lcevc_tune=animation.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.m_hf_strength": {
+    "description": "Applies to lcevc video codecs enhancements only. Allows to increase or decrease the energy of high frequencies, with 0 being a preference for softer details. Default values are modified adaptively by the encoder if you do not specify anything.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "fractional (0-0.5)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.m_lf_strength": {
+    "description": "Applies to lcevc video codecs enhancements only. Allows you to modify the way in which full resolution details are separated from the mid-to-low frequencies that are passed as low resolution to the base codec. Default values are modified adaptively by the encoder if you do not specify anything.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "fractional (0-1.0)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.max_rate": {
+    "description": "Sets max bitrate tolerance. Requires 'bufsize' to be set. For libx264 max_rate is specified in Mbps. For other codecs - in kbps.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].video_codec_parameters.me_method": {
+    "description": "Motion Estimation method used in encoding. Possible values are epzs, hex, umh, full. Defaults to None.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.me_range": {
+    "description": "Sets limit motion vectors range (1023 for DivX player).",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.min_rate": {
+    "description": "Sets min bitrate tolerance (in bits/s). Most useful in setting up a CBR encode. It is of little use elsewise. For libx264 min_rate is specified in Mbps. For other codecs - in kbps.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.format[].video_codec_parameters.partitions": {
+    "description": "One of x264's most useful features is the ability to choose among many combinations of inter and intra partitions. Possible values are +partp8x8, +partp4x4, +partb8x8, +parti8x8, +parti4x4. Defaults to None.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.pred_struct": {
+    "description": "Works with libsvtav1 codec only. Controls how frames are referenced during encoding, affecting latency, compression efficiency, and seeking. Values: 0 \u2013 Low-delay P (optimized for low-latency streaming, no B-frames) 1 \u2013 Low-delay B (allows bi-predictive frames with minimal latency) 2 \u2013 Random-access (supports B-frames and frequent keyframe access, best efficiency)",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1, 2)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.preset": {
+    "description": "libx264 (H.264) Preset names from fastest to slowest: ultrafast, superfast, veryfast, faster, fast, medium (default), slow, slower, veryslow, placebo. ultrafast and veryfast maximise encode speed and produce larger files for the same visual quality. medium offers a balanced trade-off between processing time, bitrate and quality for most VOD outputs. slow and slower create smaller files or higher quality at a fixed bitrate; savings beyond slower are usually minor. libx265 (H.265 / HEVC) Uses the same preset names as libx264. Quality gaps between neighbouring presets are modest (often < 0.5 dB PSNR). Recommended starting points: slow for offline VOD, medium for balanced use, faster when encoding speed is the main priority and a modest bitrate increase is acceptable. libvpx (VP8) Three quality tiers: good (balanced), best (highest compression efficiency), realtime (fastest, lowest efficiency). Each tier pairs with a speed level: 0 is slowest, 16 is fastest. Suggested combinations: Archival or offline: best + speed 0 Typical VOD: good + speed 1 Increasing the speed level trades compression efficiency for faster processing; expect a few percent higher bitrate per step. libvpx-vp9 (VP9) Shares the same three quality tiers. Speed levels typically span 0\u20138 for the good and best tiers; higher values can be used with the realtime tier. Suggested combinations: High-quality offline: best + speed 0 Balanced VOD: good + speed 2 Each increment in speed level noticeably accelerates encoding while slightly increasing bitrate. libsvtav1 (AV1) Numeric presets range from 0 (slowest, highest compression efficiency) to 13 (fastest, lowest efficiency). Preset 5 (default) provides a good balance of speed and bitrate for VOD workflows.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.qcomp": {
+    "description": "Sets video quantizer scale compression (VBR). It is used as a constant in the ratecontrol equation. Recommended range for default rc_eq: 0.0-1.0.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.qdiff": {
+    "description": "Sets max difference between the quantizer scale (VBR).",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.qmax": {
+    "description": "Sets max video quantizer scale (VBR). Must be included between -1 and 1024, default value is 31.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.qmin": {
+    "description": "Sets min video quantizer scale (VBR). Must be included between -1 and 69, default value is 2.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.rc_lookahead": {
+    "description": "Sets number of frames to look ahead for frametype and ratecontrol.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.refs": {
+    "description": "Number of reference frames each P-frame can use. The range is from 0-16.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.sc_threshold": {
+    "description": "Sets scene change threshold.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.scaling_mode_level0": {
+    "description": "Applies to lcevc video codecs enhancements only. Specifies the scaling mode for the base encoder picture in the LCEVC hierarchy. In combination with the associated rate control strategies, 2D, 1D and 0D influence the relative allocation of bitrate to the low-, medium- and high-frequency portions of the content. Mode Description 2D two-dimensional 2:1 scaling. E.g. for a 1920x1080 video, base layer is 960x540. Default for resolutions of 720p and above. 1D horizontal-only 2:1 scaling. E.g. for a 1920x1080 video, base layer is 960x1080. This mode is recommendable at high bits per pixel (e.g. full HD above 5 Mbps) or low resolutions (e.g. 540p or below), especially for content with high amounts of relatively low-contrast high-frequency detail. Default for resolutions lower than 720p. 0D No scaling. Currently this mode can be used exclusively for Native mode (see section 4.2.3). 0D with LCEVC (encoding_mode=enhanced) will be supported in a future release.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.subq": {
+    "description": "Sets sub pel motion estimation quality.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.sws_flags": {
+    "description": "Sets the scaler flags. This is also used to set the scaling algorithm. Only a single algorithm should be selected. Default value is 'bicubic'.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.trellis": {
+    "description": "Sets rate-distortion optimal quantization.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_codec_parameters.tune": {
+    "description": "Works with libsvtav1 codec only. Adjusts internal encoding decisions to prioritize either perceptual quality or computational efficiency. Values: 0 - Balanced (default) 1 \u2013 Visual quality priority 2 \u2013 Performance priority",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "integer (0, 1, 2)"
+  },
+  "start_encode2.query.format[].video_codec_parameters.vprofile": {
+    "description": "x264 video codec settings profile. Possible values are high, main, baseline. Defaults to main.",
+    "parent": "start_encode2.query.format[].video_codec_parameters",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].video_copy": {
+    "description": "Used with repack output only. Defaults to 1. If 0 is specified video stream is removed from the output.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].vmaf_model": {
+    "description": "Works with 'vmaf' output only. The following models are supported: vmaf_v0.6.1: Standard model for HD content. vmaf_v0.6.1neg: Model for HD content that compensates for image enhancement. vmaf_4k_v0.6.1: Model optimized for 4K content. vmaf_4k_v0.6.1neg : Model for 4K content that compensates for image enhancement. By default, vmaf_v0.6.1 is used for videos with resolution up to 4K, and vmaf_4k_v0.6.1 is used for 4K and higher.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].vtt": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 1. If 0 is specified VTT file is not generated.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.format[].vtt_name": {
+    "description": "Used with 'speech_to_text' output only. Defaults to 'subtitles.vtt'.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "string"
+  },
+  "start_encode2.query.format[].width": {
+    "description": "Output video frame (or thumbnail) width in pixels. If specified without \"height\" attribute, frame height is calculated proportionally to original height. For HLS or DASH output specify this parameter on stream object level.",
+    "parent": "start_encode2.query.format",
+    "required": false,
+    "type": "integer"
+  },
+  "start_encode2.query.refresh_playlist": {
+    "description": "Refreshes the HLS or DASH master playlist as each transcoded resolution becomes available on the destination storage. Use this feature to make sure your ABR streams are accessible as soon as individual resolutions are ready for your viewers to watch. Specify the callback_url param to receive HTTP callbacks each time the playlist is updated. Defaults to 0. Only available with encoder_version : 2",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.retry_on_error": {
+    "description": "If there is an error with the initial transcoding job, the transcoding job will be automatically retried. In this case a new job is restarted with the same params as a failed one and warnings are added to the failed job. If there is an error with the source video, or the error occurred during source video download or when uploading the outputs to destination the transcoding job will not be retried. Set to 1 to enable. Defaults to 0.",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "start_encode2.query.source": {
+    "description": "The URI is responsible for defining a single video's URI, whether it's a video URL or ID returned with upload_file method. For direct uploads source uri will be in 'tus:<file_uuid>' format. See Direct video upload for more information. Note: Both the source and the stitch parameters cannot be used for the same task. The source parameter is used for when you only have one source (input) video. The stitch parameter is used if you want to combine several source (input) videos together to form a single output.",
+    "parent": "start_encode2.query",
+    "required": true,
+    "type": "string"
+  },
+  "start_encode2.query.stitch": {
+    "description": "Use the stitch parameter in order to combine several input videos into a single one. Stitch should be a json-list of URLs or video-objects. When using object form you can specify start_time and duration attributes. Either specify the source or the stitch parameter: use source in case you have single file input and stitch in case you need to stitch several files together.",
+    "parent": "start_encode2.query",
+    "required": true,
+    "type": ""
+  },
+  "start_encode2.query.upscale": {
+    "description": "Instructs encoding system to produce video streams with exact dimensions specified in the task, even if upscaling is needed to match specified width and height. Possible values: 0 or 1. Defaults to 0, so in case you specify output height greater than input these output formats or streams will be ignored. In case all outputs dimensions are greater than input and upscale mode is not enabled only first output format or stream is applied but with the dimensions of input video.",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.query.use_subtask_callback": {
+    "description": "Send callback on each subtask event (e.g. rendition queued or completed). Possible values: 0 or 1. Defaults to 0. Recommended value is 0 unless you really need to process each rendition separately. See Receiving Callbacks .",
+    "parent": "start_encode2.query",
+    "required": false,
+    "type": "integer (1 or 0)"
+  },
+  "start_encode2.returns.status_url": {
+    "description": "Right after task is launched, the endpoint https://api.qencode.com/v1/status is always available to receive the basic set of task status attributes. To get extended status attributes (like completion percent) please refer to /v1/status method.",
+    "parent": "start_encode2.returns",
+    "required": false,
+    "type": ""
+  },
+  "start_encode2.task_token": {
+    "description": "The token created for this task. See /v1/create_task method.",
+    "parent": "start_encode2",
+    "required": true,
+    "type": "string"
+  },
+  "status.returns.status.audios": {
+    "description": "List of objects, each containing audio-only output status information. See video status object attributes description below.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "array of objects"
+  },
+  "status.returns.status.audios[].tag": {
+    "description": "System-defined tag value.",
+    "parent": "status.returns.status.audios",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.audios[].url": {
+    "description": "Contains URL of the output video.",
+    "parent": "status.returns.status.audios",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.audios[].user_tag": {
+    "description": "User-defined tag value. See /v1/start_encode2 method tag parameter description.",
+    "parent": "status.returns.status.audios",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.error": {
+    "description": "Equals to 0 if there's no error and 1 in case of any error.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "integer (0 or 1)"
+  },
+  "status.returns.status.error_description": {
+    "description": "Contains error message.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.images": {
+    "description": "List of objects, each containing output image status information. See image status object attributes description below.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "array of objects"
+  },
+  "status.returns.status.images[].tag": {
+    "description": "System-defined tag value.",
+    "parent": "status.returns.status.images",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.images[].url": {
+    "description": "Contains URL of the output image.",
+    "parent": "status.returns.status.images",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.images[].user_tag": {
+    "description": "User-defined tag value. See /v1/start_encode2 method tag parameter description.",
+    "parent": "status.returns.status.images",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.percent": {
+    "description": "Overall completion percent for the job. Currently refers only to 'encoding' status.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "float"
+  },
+  "status.returns.status.status": {
+    "description": "See possible status values description below. downloading Video is being downloaded to Qencode server. queued Task is waiting for available encoders. encoding Video is being transcoded. saving Video is being saved to destination location. completed The transcoding job has completed successfully and the videos were saved to the destination.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.status_url": {
+    "description": "Endpoint to get most actual job status. You should always get job status using the endpoint specified as last value returned in status_url.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.texts": {
+    "description": "List of objects, each containing output text status information. See text status object attributes description below.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "array of objects"
+  },
+  "status.returns.status.texts[].detected_language": {
+    "description": "The language detected in the source video audio track, returned when the output format is 'speech-to-text'.",
+    "parent": "status.returns.status.texts",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.texts[].tag": {
+    "description": "System-defined tag value.",
+    "parent": "status.returns.status.texts",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.texts[].url": {
+    "description": "Contains URL of the output.",
+    "parent": "status.returns.status.texts",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.texts[].user_tag": {
+    "description": "User-defined tag value. See /v1/start_encode2 method tag parameter description.",
+    "parent": "status.returns.status.texts",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos": {
+    "description": "List of objects, each containing output video status information. See video status object attributes description below.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "array of objects"
+  },
+  "status.returns.status.videos[].bitrate": {
+    "description": "Video bitrate in kbps",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "integer"
+  },
+  "status.returns.status.videos[].duration": {
+    "description": "Video duration in seconds",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "float"
+  },
+  "status.returns.status.videos[].error": {
+    "description": "Equals to 0 if there's no error and 1 in case of any error.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].error_description": {
+    "description": "Only present if error = 1.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].meta": {
+    "description": "Additional video information",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].percent": {
+    "description": "Shows percent of completion for subtask in encoding state.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].size": {
+    "description": "Video size in megabytes",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "float"
+  },
+  "status.returns.status.videos[].status": {
+    "description": "Possible values are listed in status attribute description",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].tag": {
+    "description": "System-defined tag value.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].url": {
+    "description": "Contains URL of the output video.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.videos[].user_tag": {
+    "description": "User-defined tag value. See /v1/start_encode2 method tag parameter description.",
+    "parent": "status.returns.status.videos",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.warnings": {
+    "description": "If there are specific issues identified during the transcoding process, the warnings parameter will appear in the status response. Below is the current list of warnings and a brief explanation of what they mean. Source Video Decoding Errors Errors encountered while decoding the source video. This likely means that the source media file might be corrupted. Callback Endpoint Errors Error response received from the callback endpoint (specified in the callback_url parameter). Check your callback implementation to make sure there are no disruptions. Low Audio Bitrate If the audio bitrate in the source is too low for the system to output meaningful audio content. This can generally be solved by increasing the audio bitrate in the source media. Errors Ignored by 'allow_soft_fail' If 'allow_soft_fail' parameter is set for any output, any specific errors that were allowed to occur will be provided in this warning.",
+    "parent": "status.returns.status",
+    "required": false,
+    "type": "array of objects"
+  },
+  "status.returns.status.warnings[].details": {
+    "description": "Additional information describing the details of the issue.",
+    "parent": "status.returns.status.warnings",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.warnings[].message": {
+    "description": "Short message identifying the warning type.",
+    "parent": "status.returns.status.warnings",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.status.warnings[].tag": {
+    "description": "Contains system tag value, e.g. 'video-0-0-0' or 'audio-0-1'. Only applies to warnings related to particular otutpus.",
+    "parent": "status.returns.status.warnings",
+    "required": false,
+    "type": "string"
+  },
+  "status.returns.statuses": {
+    "description": "Dictionary containing a status object for each requested task_token in task_tokens list. See status object attributes description below .",
+    "parent": "status.returns",
+    "required": false,
+    "type": ""
+  },
+  "status.task_tokens": {
+    "description": "You can use the task tokens returned from the /v1/create_task method to get the current status of several transcoding jobs at the same time.",
+    "parent": "status",
+    "required": true,
+    "type": "list"
+  },
+  "upload_file.returns.file_uuid": {
+    "description": "You can get file_uuid value from Location header returned on Step 2 of upload process (see \"Call sequence example\" in the right column).",
+    "parent": "upload_file.returns",
+    "required": false,
+    "type": ""
+  },
+  "upload_file.task_token": {
+    "description": "Task token returned with /v1/create_task method. Should be specified as a part of URL (and NOT a POST parameter).",
+    "parent": "upload_file",
+    "required": true,
+    "type": "string"
+  }
+}
